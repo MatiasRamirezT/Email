@@ -46,26 +46,42 @@
     </div>
     <div class="vista-previa">
       <h2>Tu correo de bienvenida</h2>
-      <p>Así se verá el mensaje que recibirás al suscribirte.</p>
+      <p>Vista previa de la plantilla de bienvenida.</p>
       <iframe src="/bienvenida" title="Vista previa del correo de bienvenida"></iframe>
     </div>
     </div>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@5/dist/email.min.js"></script>
   <script>
+    // Completa estos dos datos desde tu cuenta de EmailJS.
+    const serviceId = 'service_ov3ww5g';
+    const templateId = '';
+    const publicKey = '';
     const form = document.querySelector('#formulario');
     const status = document.querySelector('#estado');
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       const button = form.querySelector('button');
+      if (!templateId || !publicKey) {
+        status.textContent = 'Falta configurar la plantilla y la clave pública de EmailJS.';
+        return;
+      }
+      if (typeof emailjs === 'undefined') {
+        status.textContent = 'No se pudo cargar EmailJS. Revisa tu conexión.';
+        return;
+      }
       button.disabled = true;
       status.textContent = 'Enviando...';
       try {
-        const response = await fetch('/suscribir', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: form.email.value }) });
-        const data = await response.json();
-        status.textContent = response.ok ? data.message : data.error;
-        if (response.ok) form.reset();
-      } catch { status.textContent = 'No fue posible conectar. Inténtalo de nuevo.'; }
-      button.disabled = false;
+        await emailjs.send(serviceId, templateId, { email: form.email.value.trim() }, { publicKey });
+        status.textContent = 'Solicitud enviada. Revisa tu correo de bienvenida.';
+        form.reset();
+      } catch (error) {
+        console.error('Error de EmailJS:', error);
+        status.textContent = 'No fue posible enviar el correo. Inténtalo de nuevo.';
+      } finally {
+        button.disabled = false;
+      }
     });
   </script>
 </body>
