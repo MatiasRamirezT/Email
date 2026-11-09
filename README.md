@@ -6,11 +6,11 @@ Formulario de un campo que envía un correo de bienvenida sobre hábitos de lect
 
 En `public/bienvenida.html` están identificadas con comentarios numerados:
 
-1. **Logo:** el símbolo PL y el nombre Pausa Lectora en la franja verde.
-2. **Saludo:** «¡Hola, qué bueno tenerte aquí!».
+1. **Logo:** el nombre Pausa Lectora en la sección verde principal.
+2. **Saludo:** «¡Hola! Qué bueno tenerte aquí.».
 3. **Contenido:** el mensaje de bienvenida y el consejo de leer diez minutos.
 4. **Botón CTA:** «Explorar libros gratuitos», que lleva a Project Gutenberg.
-5. **Footer:** el nombre del proyecto y la razón por la que se recibió el correo.
+5. **Footer:** tres ideas de lectura, el nombre del proyecto y la razón por la que se recibió el correo.
 
 Para visualizar la plantilla, inicia la aplicación y abre http://localhost:3000/bienvenida. Esta vista previa no envía ningún correo.
 
