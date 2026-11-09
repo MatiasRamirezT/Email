@@ -35,17 +35,24 @@
     .note { margin: 13px 0 0; font-size: 11px; line-height: 1.5; color: #7a857a; }
     #estado { margin: 8px 0 0; color: #315e4b; font-weight: bold; font-size: 13px; }
     #estado:empty { display: none; }
-    .art { position: relative; display: grid; place-items: center; min-height: 560px; background: #dbe5d6; border-radius: 48% 48% 12px 12px; overflow: hidden; animation: rise 1s .15s both; }
-    .art::before, .art::after { content: ''; position: absolute; border: 1px solid #b9ccb8; border-radius: 50%; width: 480px; height: 480px; }
+    .art { position: relative; display: grid; place-items: center; min-height: 560px; background: radial-gradient(ellipse at 50% 30%, #e9eddf 0%, #d2decf 75%, #bccdbd 100%); border-radius: 48% 48% 12px 12px; overflow: hidden; animation: rise 1s .15s both; }
+    .art::before, .art::after { content: ''; position: absolute; border: 1px solid #90ac9838; border-radius: 50%; width: 480px; height: 480px; }
     .art::after { width: 390px; height: 390px; }
-    .orb { position: absolute; width: 72px; height: 72px; border-radius: 50%; background: #e8c885; top: 13%; right: 14%; opacity: .8; }
-    .book { position: relative; z-index: 1; width: 255px; height: 350px; background: #315e4b; border-radius: 4px 12px 12px 4px; box-shadow: 16px 22px 0 #f9f4e9, 25px 32px 45px #28483535; transform: rotate(-8deg); animation: float 5s ease-in-out infinite; color: #f7f1e3; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 45px 20px; }
-    .book::before { content: ''; position: absolute; left: 11px; top: 0; bottom: 0; border-left: 1px solid #ffffff47; }
+    .orb { position: absolute; width: 72px; height: 72px; border-radius: 50%; background: #e2c184; top: 13%; right: 14%; opacity: .75; filter: blur(1px); }
+    .book { position: relative; z-index: 1; width: 255px; height: 350px; padding: 0; border: 0; border-radius: 3px 11px 11px 3px; background: transparent; transform: rotate(-8deg); animation: float 5s ease-in-out infinite; perspective: 1400px; cursor: pointer; box-shadow: 15px 23px 32px #28483540; overflow: visible; }
+    .book:hover { background: transparent; transform: rotate(-8deg); }
+    .book-pages { position: absolute; inset: 5px -8px -4px 5px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; border-radius: 2px 8px 8px 2px; color: #596c59; background: repeating-linear-gradient(90deg, #eee8d9 0 2px, #faf6eb 2px 5px); box-shadow: inset 8px 0 15px #a28e6c28, 3px 4px 0 #ded4bf; }
+    .book-pages span { display: block; font: italic 24px/1.35 Georgia, serif; }
+    .book-pages small { margin-top: 24px; font: 10px/1.6 Arial, sans-serif; text-transform: uppercase; letter-spacing: 2px; }
+    .book-cover { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; padding: 45px 20px; color: #f7f1e3; border-radius: 4px 10px 10px 4px; transform-origin: left center; backface-visibility: hidden; background: repeating-linear-gradient(94deg, #ffffff05 0 1px, transparent 1px 5px), linear-gradient(110deg, #1c4233 0%, #315e4b 12%, #426b52 55%, #2b5542 100%); box-shadow: inset 12px 0 10px #17332952, inset -2px 0 3px #d6e2cb44; transition: transform .9s cubic-bezier(.2,.7,.2,1), box-shadow .9s; }
+    .book-cover::before { content: ''; position: absolute; left: 13px; top: 0; bottom: 0; border-left: 1px solid #e4dfbd50; }
+    .book:hover .book-cover, .book[aria-pressed="true"] .book-cover { transform: rotateY(-145deg); box-shadow: inset 12px 0 10px #17332952, 5px 8px 20px #16332735; }
     .book-small { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #d5e1ca; }
     .book-star { margin: auto; font-size: 52px; font-family: Georgia, serif; color: #d6c38d; }
     .book-title { font: normal 32px/1.1 Georgia, serif; }
     .book-line { margin-top: 20px; font-size: 10px; letter-spacing: 2px; color: #d5e1ca; }
-    .art-note { position: absolute; z-index: 2; bottom: 38px; right: 25px; background: #fffdf7; border-radius: 50%; width: 112px; height: 112px; display: grid; place-items: center; text-align: center; transform: rotate(12deg); font: italic 14px/1.3 Georgia, serif; box-shadow: 0 8px 24px #315e4b1c; }
+    .art-note { position: absolute; z-index: 2; bottom: 38px; right: 25px; background: #fffdf7; border-radius: 50%; width: 112px; height: 112px; display: grid; place-items: center; text-align: center; transform: rotate(12deg); font: italic 14px/1.3 Georgia, serif; box-shadow: 0 8px 24px #315e4b1c; pointer-events: none; }
+    .art-hint { position: absolute; bottom: 22px; left: 24px; color: #587364; font-size: 11px; letter-spacing: .3px; }
     .strip { background: #1d4032; color: #ecf1e6; }
     .strip-inner { display: flex; justify-content: space-between; gap: 20px; align-items: center; padding: 23px 0; font: italic 17px Georgia, serif; }
     .strip-inner span:last-child { font: bold 10px Arial, sans-serif; letter-spacing: 2px; text-transform: uppercase; color: #bed0bb; }
@@ -62,7 +69,7 @@
     @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes float { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-12px) rotate(-6deg); } }
     @media (max-width: 800px) { .hero, .preview { grid-template-columns: 1fr; } .hero { padding: 55px 0 65px; min-height: 0; } h1 { letter-spacing: -2px; } .art { min-height: 460px; } .preview { padding: 70px 0; } }
-    @media (max-width: 480px) { .shell { padding: 0 20px; } .topbar { min-height: 72px; } .brand { font-size: 18px; } .top-link { font-size: 12px; } .form-row { flex-direction: column; } .art { min-height: 400px; } .book { width: 200px; height: 275px; padding: 30px 15px; } .book-title { font-size: 27px; } .art-note { width: 90px; height: 90px; font-size: 12px; bottom: 22px; right: 15px; } .strip-inner { font-size: 14px; } .strip-inner span:last-child { display: none; } iframe { height: 940px; } .footer-inner { flex-direction: column; } }
+    @media (max-width: 480px) { .shell { padding: 0 20px; } .topbar { min-height: 72px; } .brand { font-size: 18px; } .top-link { font-size: 12px; } .form-row { flex-direction: column; } .art { min-height: 400px; } .book { width: 200px; height: 275px; } .book-cover { padding: 30px 15px; } .book-pages span { font-size: 20px; } .book-title { font-size: 27px; } .art-note { width: 90px; height: 90px; font-size: 12px; bottom: 22px; right: 15px; } .strip-inner { font-size: 14px; } .strip-inner span:last-child { display: none; } iframe { height: 940px; } .footer-inner { flex-direction: column; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
   </style>
 </head>
@@ -92,10 +99,14 @@
             <p id="estado" role="status" aria-live="polite"></p>
           </div>
         </div>
-        <div class="art" aria-hidden="true">
-          <div class="orb"></div>
-          <div class="book"><span class="book-small">Pausa Lectora</span><span class="book-star">✳</span><span class="book-title">Una historia<br>para ti</span><span class="book-line">LEE A TU RITMO</span></div>
-          <div class="art-note">Un capítulo<br>a la vez ✦</div>
+        <div class="art">
+          <div class="orb" aria-hidden="true"></div>
+          <button class="book" type="button" aria-label="Abrir o cerrar el libro" aria-pressed="false">
+            <span class="book-pages" aria-hidden="true"><span>Todo comienza<br>con una pausa.</span><small>Una historia te espera ✦</small></span>
+            <span class="book-cover" aria-hidden="true"><span class="book-small">Pausa Lectora</span><span class="book-star">✳</span><span class="book-title">Una historia<br>para ti</span><span class="book-line">LEE A TU RITMO</span></span>
+          </button>
+          <div class="art-note" aria-hidden="true">Un capítulo<br>a la vez ✦</div>
+          <span class="art-hint">Pasa el cursor o toca el libro</span>
         </div>
       </div>
     </section>
@@ -113,6 +124,11 @@
   <footer><div class="shell footer-inner"><span>✦ &nbsp; Pausa Lectora</span><span>Una invitación a leer a tu ritmo.</span></div></footer>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@5/dist/email.min.js"></script>
   <script>
+    const libro = document.querySelector('.book');
+    libro.addEventListener('click', () => {
+      libro.setAttribute('aria-pressed', libro.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+    });
+
     // Configuración pública de EmailJS.
     const serviceId = 'service_ov3ww5g';
     const templateId = 'template_8uk770m';
