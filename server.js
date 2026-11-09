@@ -7,7 +7,7 @@ const template = fs.readFileSync(path.join(__dirname, 'public/bienvenida.html'))
 const port = process.env.PORT || 3000;
 
 http.createServer((req, res) => {
-  if (req.method === 'GET' && (req.url === '/' || req.url === '/bienvenida')) {
+  if (req.method === 'GET' && (req.url === '/' || (req.url === '/bienvenida' || req.url === '/bienvenida.html'))) {
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     return res.end(req.url === '/' ? page : template);
   }
