@@ -15,6 +15,10 @@ http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     return res.end(page);
   }
+  if (req.method === 'GET' && req.url === '/bienvenida') {
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    return res.end(template);
+  }
   if (req.method !== 'POST' || req.url !== '/suscribir') return reply(404, { error: 'Ruta no encontrada.' });
   let body = '';
   req.on('data', chunk => {
