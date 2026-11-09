@@ -12,8 +12,23 @@
     body { margin: 0; background: #f5f1e8; color: #233d32; font-family: Arial, sans-serif; }
     a { color: inherit; }
     .shell { max-width: 1320px; margin: auto; padding: 0 5%; }
-    .topbar { min-height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid #d9ddd1; }
+    main, footer { position: relative; z-index: 1; }
+    .site-header { position: sticky; top: 0; z-index: 10; background: #f5f1e8eb; backdrop-filter: blur(12px); transition: box-shadow .4s, background .4s; }
+    .site-header.is-scrolled { box-shadow: 0 8px 26px #24433315; background: #f5f1e8f5; }
+    .topbar { min-height: 100px; transition: min-height .4s ease; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid #d9ddd1; }
     .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; font: bold 20px Georgia, serif; letter-spacing: -.5px; }
+    .site-header .brand { font-size: 27px; transition: font-size .4s ease; }
+    .site-header.is-scrolled .brand { font-size: 18px; }
+    .site-header.is-scrolled .topbar { min-height: 66px; }
+    .background-motion { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+    .background-motion span { position: absolute; color: #71977d; opacity: .18; font-family: Georgia,serif; animation: drift 19s linear infinite; }
+    .background-motion span:nth-child(1) { left:7%; top:95%; font-size:28px; animation-delay:-2s; }
+    .background-motion span:nth-child(2) { left:21%; top:105%; font-size:20px; animation-delay:-11s; animation-duration:24s; }
+    .background-motion span:nth-child(3) { left:39%; top:100%; font-size:32px; animation-delay:-6s; animation-duration:27s; }
+    .background-motion span:nth-child(4) { left:61%; top:100%; font-size:22px; animation-delay:-17s; }
+    .background-motion span:nth-child(5) { left:78%; top:105%; font-size:30px; animation-delay:-9s; animation-duration:25s; }
+    .background-motion span:nth-child(6) { left:92%; top:100%; font-size:20px; animation-delay:-14s; animation-duration:22s; }
+    @keyframes drift { 0% { transform:translate3d(0,0,0) rotate(0); } 50% { transform:translate3d(35px,-55vh,0) rotate(130deg); } 100% { transform:translate3d(-12px,-120vh,0) rotate(290deg); } }
     .brand-mark { display: grid; place-items: center; width: 38px; height: 38px; color: #f7f1e3; background: #315e4b; border-radius: 50%; font-size: 18px; }
     .top-link { text-decoration: none; font-size: 13px; font-weight: bold; border-bottom: 1px solid #315e4b; padding: 8px 0; }
     .hero { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(35px, 6vw, 90px); align-items: center; min-height: 690px; padding: 70px 0 85px; }
@@ -82,17 +97,18 @@
     @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes float { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-12px) rotate(-6deg); } }
     @media (max-width: 800px) { .hero, .preview { grid-template-columns: 1fr; } .hero { padding: 55px 0 65px; min-height: 0; } h1 { letter-spacing: -2px; } .art { min-height: 460px; } .preview { padding: 70px 0; } }
-    @media (max-width: 480px) { .shell { padding: 0 20px; } .topbar { min-height: 72px; } .brand { font-size: 18px; } .top-link { font-size: 12px; } .form-row { flex-direction: column; } .art { min-height: 400px; } .book { width: 200px; height: 275px; } .book-cover { padding: 30px 15px; } .book-pages span { font-size: 20px; } .book-title { font-size: 27px; } .art-note { width: 90px; height: 90px; font-size: 12px; bottom: 22px; right: 15px; } .strip-inner { font-size: 14px; } .strip-inner span:last-child { display: none; } iframe { height: 940px; } .footer-inner { flex-direction: column; } }
+    @media (max-width: 480px) { .shell { padding: 0 20px; } .topbar { min-height: 72px; } .site-header .brand { font-size: 21px; } .site-header.is-scrolled .brand { font-size: 17px; } .top-link { font-size: 12px; } .form-row { flex-direction: column; } .art { min-height: 400px; } .book { width: 200px; height: 275px; } .book-cover { padding: 30px 15px; } .book-pages span { font-size: 20px; } .book-title { font-size: 27px; } .art-note { width: 90px; height: 90px; font-size: 12px; bottom: 22px; right: 15px; } .strip-inner { font-size: 14px; } .strip-inner span:last-child { display: none; } iframe { height: 940px; } .footer-inner { flex-direction: column; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
   </style>
 </head>
 <body>
-  <header class="shell">
+  <div class="background-motion" aria-hidden="true"><span>✧</span><span>❧</span><span>✦</span><span>❧</span><span>✧</span><span>✦</span></div>
+  <header class="site-header"><div class="shell">
     <nav class="topbar" aria-label="Navegación principal">
       <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">✦</span> Pausa Lectora</a>
       <div class="nav-actions"><button class="sound-toggle" type="button" aria-pressed="false">🔇 Sonido apagado</button><a class="top-link" href="#vista-previa">Ver correo ↗</a></div>
     </nav>
-  </header>
+  </div></header>
   <main>
     <section class="shell">
       <div class="hero">
@@ -126,7 +142,7 @@
     <div class="strip"><div class="shell"><div class="strip-inner"><span>«Cada historia comienza con una pausa.»</span><span>Un momento para ti &nbsp; ✦ &nbsp; Pausa Lectora</span></div></div></div>
     <section class="shell"><div class="story">
       <div><span class="eyebrow">Un ritual para ti</span><h2>Pequeñas pausas,<br>grandes historias.</h2><p>Una página, una taza de algo caliente y unos minutos sin prisa. No necesitas más para comenzar.</p><a class="story-link" href="#vista-previa">Descubre tu bienvenida ↗</a></div>
-      <picture><source srcset="assets/lectura-estatica.png" media="(prefers-reduced-motion: reduce)"><img src="assets/lectura.gif" alt="Ilustración de un libro abierto sobre una pila de libros, rodeado de destellos." loading="lazy"></picture>
+      <picture><source srcset="assets/lectura-estatica.png" media="(prefers-reduced-motion: reduce)"><img src="assets/lectura.gif?v=2" alt="Ilustración de un libro abierto sobre una pila de libros, rodeado de destellos." loading="lazy"></picture>
     </div></section>
     <section class="shell" id="vista-previa">
       <div class="preview">
@@ -141,6 +157,13 @@
   <footer><div class="shell footer-inner"><span>✦ &nbsp; Pausa Lectora</span><span>Una invitación a leer a tu ritmo.</span></div></footer>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@5/dist/email.min.js"></script>
   <script>
+    const encabezado = document.querySelector('.site-header');
+    function actualizarEncabezado() {
+      encabezado.classList.toggle('is-scrolled', window.scrollY > 40);
+    }
+    window.addEventListener('scroll', actualizarEncabezado, { passive: true });
+    actualizarEncabezado();
+
     const controlSonido = document.querySelector('.sound-toggle');
     let sonidoActivo = false;
     let audioContext;
